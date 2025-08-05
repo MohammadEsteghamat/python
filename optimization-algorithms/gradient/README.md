@@ -61,10 +61,10 @@ f(x, y) = sin(x) * cos(y) + 0.1 * (x^2 + y^2)
    - به‌روزرسانی موقعیت با استفاده از سرعت.
 
 **فرمول‌ها:**
-```
-v_t = beta * v_t{t-1} + (1 - beta) * grad_f(x)
-x = x - eta * v_t
-```
+
+- v_t = beta * v_t{t-1} + (1 - beta) * grad_f(x)
+- x = x - eta * v_t
+
 
 ---
 
@@ -80,13 +80,13 @@ x = x - eta * v_t
 4. به‌روزرسانی پارامترها با استفاده از میانگین‌ها.
 
 **فرمول‌ها:**
-```
-m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
-v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
-m_hat = m_t / (1 - beta1^t)
-v_hat = v_t / (1 - beta2^t)
-x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
-```
+
+- m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
+- v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
+- m_hat = m_t / (1 - beta1^t)
+- v_hat = v_t / (1 - beta2^t)
+- x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
+
 
 
 
