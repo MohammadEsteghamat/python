@@ -43,7 +43,9 @@ f(x, y) = sin(x) * cos(y) + 0.1 * (x^2 + y^2)
 4. تکرار مراحل بالا برای تعداد مشخصی گام.
 
 **فرمول:**
+```
 x_new = x_old - eta * grad_f(x)
+```
 
 ---
 
@@ -59,10 +61,10 @@ x_new = x_old - eta * grad_f(x)
    - به‌روزرسانی موقعیت با استفاده از سرعت.
 
 **فرمول‌ها:**
-
+```
 v_t = beta * v_{t-1} + (1 - beta) * grad_f(x)
 x = x - eta * v_t
-
+```
 
 ---
 
@@ -78,12 +80,13 @@ x = x - eta * v_t
 4. به‌روزرسانی پارامترها با استفاده از میانگین‌ها.
 
 **فرمول‌ها:**
+```
 m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
 v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
 m_hat = m_t / (1 - beta1^t)
 v_hat = v_t / (1 - beta2^t)
 x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
-
+```
 
 
 
