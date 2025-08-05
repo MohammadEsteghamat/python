@@ -1,70 +1,93 @@
-# Gradient Optimization Algorithms in Python
+# الگوریتم‌های بهینه‌سازی گرادیانی در پایتون
 
-This project demonstrates the implementation of **three popular gradient-based optimization algorithms** to minimize a given objective function:
+این پروژه پیاده‌سازی سه الگوریتم پرکاربرد برای کمینه‌سازی یک تابع هدف را نشان می‌دهد:
 
-- Gradient Descent
-- Momentum
-- Adam
-
----
-
-## 🧠 Objective Function
-
-The function we aim to minimize is:
-
-\[
-f(x, y) = \sin(x) \cdot \cos(y) + 0.1 \cdot (x^2 + y^2)
-\]
-
-This function combines trigonometric and quadratic terms, providing a non-convex landscape suitable for testing optimization methods.
+- گرادیان نزولی (Gradient Descent)
+- مومنتوم (Momentum)
+- آدام (Adam)
 
 ---
 
-## 📐 Gradient (Partial Derivatives)
+## 🧠 تابع هدف
 
-The gradient of the function \( f(x, y) \) is calculated as:
+تابعی که قصد کمینه‌سازی آن را داریم به صورت زیر است:
 
-- \( \frac{\partial f}{\partial x} = \cos(x) \cdot \cos(y) + 0.2x \)
-- \( \frac{\partial f}{\partial y} = -\sin(x) \cdot \sin(y) + 0.2y \)
+f(x, y) = sin(x) * cos(y) + 0.1 * (x^2 + y^2)
 
-These are used in all optimization methods to update the position in the search space.
+این تابع شامل ترکیبی از توابع مثلثاتی و درجه دوم است که منظره‌ای غیر محدب (non-convex) ایجاد می‌کند و برای تست الگوریتم‌های بهینه‌سازی مناسب است.
+
+---
+
+## 📐 گرادیان‌ها (مشتق‌های جزئی)
+
+گرادیان تابع به صورت زیر محاسبه می‌شود:
+
+- df/dx = cos(x) * cos(y) + 0.2 * x
+- df/dy = -sin(x) * sin(y) + 0.2 * y
+
+تمام الگوریتم‌ها از این گرادیان برای به‌روزرسانی موقعیت استفاده می‌کنند.
 
 ---
 
-## 🚀 Optimization Algorithms
+## 🚀 الگوریتم‌های بهینه‌سازی (نحوه عملکرد)
 
-### 1. Gradient Descent (GD)
-A basic first-order optimization method.
+### 1. گرادیان نزولی (Gradient Descent)
 
-**Update rule:**
-\[
-x = x - \eta \cdot \nabla f(x)
-\]
+در این روش، در جهت مخالف گرادیان حرکت می‌کنیم تا به کمینه محلی برسیم.
 
-Where:
-- \( \eta \) is the learning rate
-- \( \nabla f(x) \) is the gradient vector
+**مراحل اجرا:**
 
-### 2. Momentum
-Improves convergence by adding a velocity term to accelerate updates in consistent directions.
+1. انتخاب نقطه شروع تصادفی.
+2. محاسبه گرادیان در آن نقطه.
+3. به‌روزرسانی پارامترها با کم کردن گرادیان ضربدر نرخ یادگیری.
+4. تکرار مراحل بالا برای تعداد مشخصی گام.
 
-**Update rules:**
-- \( v_t = \beta \cdot v_{t-1} + (1 - \beta) \cdot \nabla f(x) \)
-- \( x = x - \eta \cdot v_t \)
+**فرمول:**
 
-Where:
-- \( \beta \) is the momentum coefficient
+- x_new = x_old - eta * grad_f(x)
 
-### 3. Adam (Adaptive Moment Estimation)
-Combines momentum with adaptive learning rates.
-
-**Update rules:**
-- \( m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot \nabla f(x) \)
-- \( v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot (\nabla f(x))^2 \)
-- Bias correction:
-    - \( \hat{m}_t = \frac{m_t}{1 - \beta_1^t} \)
-    - \( \hat{v}_t = \frac{v_t}{1 - \beta_2^t} \)
-- Parameter update:
-    - \( x = x - \eta \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} \)
 
 ---
+
+### 2. مومنتوم (Momentum)
+
+با اضافه کردن یک بردار سرعت به الگوریتم، همگرایی را سریع‌تر می‌کند و از نوسانات شدید جلوگیری می‌کند.
+
+**مراحل اجرا:**
+
+1. مقداردهی اولیه سرعت برابر صفر.
+2. در هر مرحله:
+   - محاسبه سرعت جدید با استفاده از سرعت قبلی و گرادیان فعلی.
+   - به‌روزرسانی موقعیت با استفاده از سرعت.
+
+**فرمول‌ها:**
+
+- v_t = beta * v_t{t-1} + (1 - beta) * grad_f(x)
+- x = x - eta * v_t
+
+
+---
+
+### 3. آدام (Adam)
+
+ترکیبی از مومنتوم و RMSProp است که نرخ یادگیری را برای هر پارامتر به‌صورت تطبیقی تنظیم می‌کند.
+
+**مراحل اجرا:**
+
+1. مقداردهی اولیه m و v برابر صفر.
+2. به‌روزرسانی میانگین گرادیان و میانگین مربع گرادیان.
+3. تصحیح اریبی (bias correction).
+4. به‌روزرسانی پارامترها با استفاده از میانگین‌ها.
+
+**فرمول‌ها:**
+
+- m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
+- v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
+- m_hat = m_t / (1 - beta1^t)
+- v_hat = v_t / (1 - beta2^t)
+- x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
+
+
+
+
+
