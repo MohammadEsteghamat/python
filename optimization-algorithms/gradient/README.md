@@ -1,147 +1,90 @@
-# Gradient Optimization Algorithms in Python
+# الگوریتم‌های بهینه‌سازی گرادیانی در پایتون
 
-This project demonstrates the implementation of **three popular gradient-based optimization algorithms** to minimize a given objective function:
+این پروژه پیاده‌سازی سه الگوریتم پرکاربرد برای کمینه‌سازی یک تابع هدف را نشان می‌دهد:
 
-- Gradient Descent
-- Momentum
-- Adam
+- گرادیان نزولی (Gradient Descent)
+- مومنتوم (Momentum)
+- آدام (Adam)
 
 ---
 
-## 🧠 Objective Function
+## 🧠 تابع هدف
 
-The function we aim to minimize is:
+تابعی که قصد کمینه‌سازی آن را داریم به صورت زیر است:
 
-```
 f(x, y) = sin(x) * cos(y) + 0.1 * (x^2 + y^2)
-```
 
-This function combines trigonometric and quadratic terms, providing a non-convex landscape suitable for testing optimization methods.
+این تابع شامل ترکیبی از توابع مثلثاتی و درجه دوم است که منظره‌ای غیر محدب (non-convex) ایجاد می‌کند و برای تست الگوریتم‌های بهینه‌سازی مناسب است.
 
 ---
 
-## 📐 Gradient (Partial Derivatives)
+## 📐 گرادیان‌ها (مشتق‌های جزئی)
 
-The gradient of the function f(x, y) is calculated as:
+گرادیان تابع به صورت زیر محاسبه می‌شود:
 
 - df/dx = cos(x) * cos(y) + 0.2 * x
 - df/dy = -sin(x) * sin(y) + 0.2 * y
 
-These are used in all optimization methods to update the position in the search space.
+تمام الگوریتم‌ها از این گرادیان برای به‌روزرسانی موقعیت استفاده می‌کنند.
 
 ---
 
-## 🚀 Optimization Algorithms (How They Work)
+## 🚀 الگوریتم‌های بهینه‌سازی (نحوه عملکرد)
 
-### 1. Gradient Descent (GD)
+### 1. گرادیان نزولی (Gradient Descent)
 
-**Gradient Descent** is a basic optimization method where we move in the opposite direction of the gradient to reach a local minimum.
+در این روش، در جهت مخالف گرادیان حرکت می‌کنیم تا به کمینه محلی برسیم.
 
-**How it works:**
+**مراحل اجرا:**
 
-1. Choose a random initial point.
-2. Compute the gradient at that point.
-3. Update parameters by subtracting the gradient scaled by the learning rate (eta).
-4. Repeat for a number of steps.
+1. انتخاب نقطه شروع تصادفی.
+2. محاسبه گرادیان در آن نقطه.
+3. به‌روزرسانی پارامترها با کم کردن گرادیان ضربدر نرخ یادگیری.
+4. تکرار مراحل بالا برای تعداد مشخصی گام.
 
-**Update Rule:**
-
-```
+**فرمول:**
 x_new = x_old - eta * grad_f(x)
-```
-
-- ✅ Simple and intuitive
-- ❌ Can be slow or stuck in local minima
 
 ---
 
-### 2. Momentum
+### 2. مومنتوم (Momentum)
 
-**Momentum** accelerates gradient descent by building up a velocity vector in directions of persistent reduction.
+با اضافه کردن یک بردار سرعت به الگوریتم، همگرایی را سریع‌تر می‌کند و از نوسانات شدید جلوگیری می‌کند.
 
-**How it works:**
+**مراحل اجرا:**
 
-1. Initialize velocity v to zero.
-2. At each step:
-   - Update v using past velocity and current gradient.
-   - Update position using the new velocity.
+1. مقداردهی اولیه سرعت برابر صفر.
+2. در هر مرحله:
+   - محاسبه سرعت جدید با استفاده از سرعت قبلی و گرادیان فعلی.
+   - به‌روزرسانی موقعیت با استفاده از سرعت.
 
-**Update Rules:**
+**فرمول‌ها:**
 
-```
 v_t = beta * v_{t-1} + (1 - beta) * grad_f(x)
 x = x - eta * v_t
-```
 
-- ✅ Faster convergence in ravines and narrow valleys
 
 ---
 
-### 3. Adam (Adaptive Moment Estimation)
+### 3. آدام (Adam)
 
-**Adam** combines ideas from both Momentum and RMSProp. It keeps track of both the first moment (mean) and second moment (variance) of the gradients.
+ترکیبی از مومنتوم و RMSProp است که نرخ یادگیری را برای هر پارامتر به‌صورت تطبیقی تنظیم می‌کند.
 
-**How it works:**
+**مراحل اجرا:**
 
-1. Initialize first and second moment estimates m, v to zero.
-2. Update them with moving averages.
-3. Apply bias correction.
-4. Update parameters using scaled gradients.
+1. مقداردهی اولیه m و v برابر صفر.
+2. به‌روزرسانی میانگین گرادیان و میانگین مربع گرادیان.
+3. تصحیح اریبی (bias correction).
+4. به‌روزرسانی پارامترها با استفاده از میانگین‌ها.
 
-**Update Rules:**
-
-```
+**فرمول‌ها:**
 m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
 v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
 m_hat = m_t / (1 - beta1^t)
 v_hat = v_t / (1 - beta2^t)
 x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
-```
 
-- ✅ Adaptive learning rate
-- ✅ Robust in practice
-- ✅ Commonly used in training deep neural networks
 
----
 
-## 🏁 Running the Program
 
-Simply run the Python script:
 
-```bash
-python optimization.py
-```
-
-Each algorithm will print the optimized point and the corresponding function value.
-
----
-
-## 📊 Example Output
-
-```
---- Gradient Descent ---
-[GD] : x = [1.22738, 1.45092], f = 0.218967
-
---- Momentum ---
-[Momentum] : x = [1.22765, 1.45145], f = 0.218967
-
---- Adam ---
-[Adam] : x = [1.22723, 1.45057], f = 0.218967
-```
-
-(Note: Exact values vary due to random initialization.)
-
----
-
-## ⚙️ Dependencies
-
-Only standard Python libraries are used:
-
-- `math`
-- `random`
-
----
-
-## 📚 License
-
-This project is licensed under the MIT License.
