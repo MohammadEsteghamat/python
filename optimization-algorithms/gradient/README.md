@@ -62,7 +62,7 @@ x_new = x_old - eta * grad_f(x)
 
 **فرمول‌ها:**
 ```
-v_t = beta * v_{t-1} + (1 - beta) * grad_f(x)
+v_t = beta * v_t{t-1} + (1 - beta) * grad_f(x)
 x = x - eta * v_t
 ```
 
