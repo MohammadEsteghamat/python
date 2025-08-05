@@ -12,9 +12,9 @@ This project demonstrates the implementation of **three popular gradient-based o
 
 The function we aim to minimize is:
 
-\[
-f(x, y) = \sin(x) \cdot \cos(y) + 0.1 \cdot (x^2 + y^2)
-\]
+```
+f(x, y) = sin(x) * cos(y) + 0.1 * (x^2 + y^2)
+```
 
 This function combines trigonometric and quadratic terms, providing a non-convex landscape suitable for testing optimization methods.
 
@@ -22,10 +22,10 @@ This function combines trigonometric and quadratic terms, providing a non-convex
 
 ## 📐 Gradient (Partial Derivatives)
 
-The gradient of the function \( f(x, y) \) is calculated as:
+The gradient of the function f(x, y) is calculated as:
 
-- \( \frac{\partial f}{\partial x} = \cos(x) \cdot \cos(y) + 0.2x \)
-- \( \frac{\partial f}{\partial y} = -\sin(x) \cdot \sin(y) + 0.2y \)
+- df/dx = cos(x) * cos(y) + 0.2 * x
+- df/dy = -sin(x) * sin(y) + 0.2 * y
 
 These are used in all optimization methods to update the position in the search space.
 
@@ -41,14 +41,14 @@ These are used in all optimization methods to update the position in the search 
 
 1. Choose a random initial point.
 2. Compute the gradient at that point.
-3. Update parameters by subtracting the gradient scaled by the learning rate \( \eta \).
+3. Update parameters by subtracting the gradient scaled by the learning rate (eta).
 4. Repeat for a number of steps.
 
 **Update Rule:**
 
-\[
-x_{\text{new}} = x_{\text{old}} - \eta \cdot \nabla f(x)
-\]
+```
+x_new = x_old - eta * grad_f(x)
+```
 
 - ✅ Simple and intuitive
 - ❌ Can be slow or stuck in local minima
@@ -61,19 +61,17 @@ x_{\text{new}} = x_{\text{old}} - \eta \cdot \nabla f(x)
 
 **How it works:**
 
-1. Initialize velocity \( v \) to zero.
+1. Initialize velocity v to zero.
 2. At each step:
-   - Update \( v \) using past velocity and current gradient.
+   - Update v using past velocity and current gradient.
    - Update position using the new velocity.
 
 **Update Rules:**
 
-\[
-v_t = \beta \cdot v_{t-1} + (1 - \beta) \cdot \nabla f(x)
-\]
-\[
-x = x - \eta \cdot v_t
-\]
+```
+v_t = beta * v_{t-1} + (1 - beta) * grad_f(x)
+x = x - eta * v_t
+```
 
 - ✅ Faster convergence in ravines and narrow valleys
 
@@ -85,25 +83,20 @@ x = x - \eta \cdot v_t
 
 **How it works:**
 
-1. Initialize first and second moment estimates \( m \), \( v \) to zero.
+1. Initialize first and second moment estimates m, v to zero.
 2. Update them with moving averages.
 3. Apply bias correction.
 4. Update parameters using scaled gradients.
 
 **Update Rules:**
 
-\[
-m_t = \beta_1 \cdot m_{t-1} + (1 - \beta_1) \cdot \nabla f(x)
-\]
-\[
-v_t = \beta_2 \cdot v_{t-1} + (1 - \beta_2) \cdot (\nabla f(x))^2
-\]
-\[
-\hat{m}_t = \frac{m_t}{1 - \beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1 - \beta_2^t}
-\]
-\[
-x = x - \eta \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}
-\]
+```
+m_t = beta1 * m_{t-1} + (1 - beta1) * grad_f(x)
+v_t = beta2 * v_{t-1} + (1 - beta2) * (grad_f(x))^2
+m_hat = m_t / (1 - beta1^t)
+v_hat = v_t / (1 - beta2^t)
+x = x - eta * m_hat / (sqrt(v_hat) + epsilon)
+```
 
 - ✅ Adaptive learning rate
 - ✅ Robust in practice
